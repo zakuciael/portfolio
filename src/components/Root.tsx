@@ -11,8 +11,8 @@ class Root extends React.Component {
         return (
             <div className="container">
                 <Avatar url={avatar} alt="Avatar" />
-                 <SimpleTitle text="ZaKKu" />
-                 <span className="separator" />
+                <SimpleTitle text="ZaKKu" />
+                <span className="separator" />
                 <div className="icons-container">
                     <SocialMediaIcon icon={faDiscord}  text="ZaKKu#2805"  name="Discord"/>
                     <SocialMediaIcon icon={faFacebook}  url="https://www.facebook.com/dev.zakku/" text="Facebook"  name="Facebook"/>
