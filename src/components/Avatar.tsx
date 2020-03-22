@@ -6,7 +6,7 @@ interface AvatarProps {
 }
 
 class Avatar extends React.Component<AvatarProps> {
-    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    render() {
         return (
             <div className="avatar">
                 <img src={this.props.url} alt={this.props.alt}/>

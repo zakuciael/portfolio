@@ -11,7 +11,7 @@ interface SocialMediaIconProps {
 }
 
 class SocialMediaIcon extends React.Component<SocialMediaIconProps> {
-    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    render() {
         return (
             <div className="icon">
                 <a href={this.props.url || this.props.name} data-tip="" data-for={this.props.name} onClick={event => !this.props.url ? event.preventDefault() : ""}>

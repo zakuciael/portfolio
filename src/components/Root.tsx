@@ -7,7 +7,7 @@ import {faDiscord, faFacebook, faGithub, faGitlab, faTwitter} from "@fortawesome
 import {SocialMediaIcon} from "./SocialMediaIcon";
 
 class Root extends React.Component {
-    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    render() {
         return (
             <div className="container">
                 <Avatar url={avatar} alt="Avatar" />
