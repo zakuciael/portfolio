@@ -43,7 +43,7 @@ jobs:
       - name: Upload build to remote server
         run: sftp -o StrictHostKeyChecking=no deploy@zakku.eu:/var/www/zakku.eu <<< "put ./build.zip"
       - name: Unpack build on remote server
-        run: ssh deploy@zakku.eu -n "unzip -o ~/build.zip && rm -rf ./build.zip"
+        run: ssh deploy@zakku.eu -n "cd /var/www/zakku.eu && unzip -o ./build.zip && rm -rf ./build.zip"
       - name: Mark deployment status as finished
         uses: bobheadxi/deployments@master
         if: always()
