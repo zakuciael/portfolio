@@ -28,6 +28,8 @@ jobs:
         run: yarn install --production
       - name: Build website
         run: yarn build
+      - name: Fetch host key
+        run: ssh-keyscan -H -t rsa zakku.eu > ~/.ssh/known_hosts
       - name: Create private key
         run: |
           echo -n "${{ secrets.SSH_KEY }}" >./ssh_key
