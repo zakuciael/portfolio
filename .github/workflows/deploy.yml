@@ -1,0 +1,50 @@
+name: "Deploy website to server"
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Mark deployment status as started
+        uses: bobheadxi/deployments@master
+        id: deploy_status
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: master
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Install dependencies
+        run: yarn install --production
+      - name: Build website
+        run: yarn build
+      - name: Create private key
+        run: |
+          echo -n "${{ secrets.SSH_KEY }}" >./ssh_key
+          chmod 600 ./ssh_key
+      - name: Zipping build for upload
+        run: cd ./build && zip -r ../build.zip *
+      - name: Clean previous version on remote server
+        run: ssh deploy@zakku.eu -i ./ssh_key -n "rm -rf /var/www/zakku.eu/*"
+      - name: Upload build to remote server
+        run: sftp -i ./ssh_key -o StrictHostKeyChecking=no deploy@zakku.eu:/var/www/zakku.eu <<< "put ./build.zip"
+      - name: Unpack build on remote server
+        run: ssh deploy@zakku.eu -i ./ssh_key -n "unzip -o ~/build.zip && rm -rf ./build.zip"
+      - name: Mark deployment status as finished
+        uses: bobheadxi/deployments@master
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deploy_status.outputs.deployment_id }}
