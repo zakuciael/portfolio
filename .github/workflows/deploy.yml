@@ -24,6 +24,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12"
+      - name: Get Yarn cache directory
+        id: get_cache_dir
+        run: echo "##[set-output name=dir;]$(yarn cache dir)"
+      - name: Cache node dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ${{ steps.get_cache_dir.outputs.dir }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Install dependencies
         run: yarn install --production
       - name: Build website
