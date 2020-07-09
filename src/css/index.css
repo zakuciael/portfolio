@@ -22,10 +22,14 @@ body {
     flex-direction: column;
 }
 
-.avatar img {
+.avatar {
+    background-size: 380px;
+    background-repeat: no-repeat;
+    background-position: center;
     width: 300px;
     height: 300px;
     border-radius: 50%;
+    overflow: hidden;
 }
 
 .title {

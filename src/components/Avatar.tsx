@@ -8,9 +8,7 @@ interface AvatarProps {
 class Avatar extends React.Component<AvatarProps> {
     render() {
         return (
-            <div className="avatar">
-                <img src={this.props.url} alt={this.props.alt}/>
-            </div>
+            <div className="avatar" style={{ backgroundImage: `url(${this.props.url})` }} />
         );
     }
 }
