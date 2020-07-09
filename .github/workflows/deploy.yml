@@ -28,23 +28,22 @@ jobs:
         run: yarn install --production
       - name: Build website
         run: yarn build
-      - name: Fetch host key
+      - name: Prepare ssh
         run: |
-          touch ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          mkdir ~/.ssh
+          chmod 700 ~/.ssh
           ssh-keyscan -H -t rsa zakku.eu > ~/.ssh/known_hosts
-      - name: Create private key
-        run: |
-          echo -n "${{ secrets.SSH_KEY }}" >./ssh_key
-          chmod 600 ./ssh_key
+          chmod 644 ~/.ssh/known_hosts
+          echo -n "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
       - name: Zipping build for upload
         run: cd ./build && zip -r ../build.zip *
       - name: Clean previous version on remote server
-        run: ssh deploy@zakku.eu -i ./ssh_key -n "rm -rf /var/www/zakku.eu/*"
+        run: ssh deploy@zakku.eu -n "rm -rf /var/www/zakku.eu/*"
       - name: Upload build to remote server
-        run: sftp -i ./ssh_key -o StrictHostKeyChecking=no deploy@zakku.eu:/var/www/zakku.eu <<< "put ./build.zip"
+        run: sftp -o StrictHostKeyChecking=no deploy@zakku.eu:/var/www/zakku.eu <<< "put ./build.zip"
       - name: Unpack build on remote server
-        run: ssh deploy@zakku.eu -i ./ssh_key -n "unzip -o ~/build.zip && rm -rf ./build.zip"
+        run: ssh deploy@zakku.eu -n "unzip -o ~/build.zip && rm -rf ./build.zip"
       - name: Mark deployment status as finished
         uses: bobheadxi/deployments@master
         if: always()
