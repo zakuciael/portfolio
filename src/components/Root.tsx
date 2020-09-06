@@ -14,7 +14,7 @@ class Root extends React.Component {
                 <SimpleTitle text="ZaKKu" />
                 <span className="separator" />
                 <div className="icons-container">
-                    <SocialMediaIcon icon={faDiscord}  text="ZaKKu#0001"  name="Discord"/>
+                    <SocialMediaIcon icon={faDiscord}  url="https://discord.com/users/208525547070816256/" text="Discord"  name="Discord"/>
                     <SocialMediaIcon icon={faTwitter}  url="https://twitter.com/zakuciael" text="Twitter"  name="Twitter"/>
                     <SocialMediaIcon icon={faGithub}  url="https://github.com/zakuciael" text="GitHub" name="GitHub"/>
                     <SocialMediaIcon icon={faPaypal}  url="https://paypal.me/zakuciael" text="PayPal" name="PayPal" />
